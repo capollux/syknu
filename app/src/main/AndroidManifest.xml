@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hwang.sy_knu"
+    android:versionCode="21"
+    android:versionName="1.4.1" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".Intro"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Main"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".Sub"
+            android:label="@string/title_activity_sy__knu__sub" >
+        </activity>
+        <activity
+            android:name=".Major"
+            android:label="@string/title_activity_sy__knu__major" >
+        </activity>
+        <activity
+            android:name=".SyList"
+            android:label="@string/title_activity_sy__knu__sy__menu" >
+        </activity>
+        <activity
+            android:name=".Sy"
+            android:label="@string/title_activity_sy__knu__sy" >
+        </activity>
+        <activity
+            android:name=".Search"
+            android:label="@string/title_activity_sy__knu__search" >
+        </activity>
+        <activity
+            android:name=".info.AppInfo"
+            android:label="@string/title_activity_sy__knu__app__info" >
+        </activity>
+        
+        <activity
+            android:name=".Detail"
+            android:label="@string/title_activity_sy__knu__sy__detail" >
+        </activity>
+        <activity
+            android:name=".StuScan"
+            android:label="@string/title_activity_sy__knu__stu__scan" >
+        </activity>
+    </application>
+
+</manifest>

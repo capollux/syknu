@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+   	 	
+    
+    	<item
+			android:title="강의 내용 및 일정"
+			android:id="@+id/detail_sy"
+			android:icon="@drawable/search_go_pressed"
+			android:showAsAction="always"/>
+    	
+    	<item
+			android:title="한영"
+			android:id="@+id/eng_sy"
+			android:showAsAction="always"/>
+
+    	
+</menu>

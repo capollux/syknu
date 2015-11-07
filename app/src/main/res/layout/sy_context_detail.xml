@@ -1,0 +1,88 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <ProgressBar
+	        android:id="@+id/loading_sy_context_detail"
+	        android:layout_width="40dp"
+	        android:layout_height="40dp"
+	        android:layout_centerInParent="true"
+	        android:visibility="invisible"/>
+	<TextView 
+	    android:id="@+id/check_network_sy_context_detail"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerInParent="true"
+	    android:gravity="center"
+	    android:text="네트워크 연결 오류"
+	    android:visibility="invisible"
+	    />
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:weightSum="10"
+	    >
+	    	<RelativeLayout
+	    	    android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="0.7"
+	    	    >
+
+	    	   	<TextView
+	    	   	    android:id="@+id/detail_title"
+	    	   	    android:layout_width="wrap_content"
+	    	   	    android:layout_height="wrap_content"
+	    	   	    android:gravity="center"
+	    	   	    android:layout_centerInParent="true"
+	    	   	    android:text="title" />
+
+	    	     <LinearLayout
+					 android:id="@+id/detail_pagemark"
+					 android:layout_width="wrap_content"
+					 android:layout_height="wrap_content"
+					 android:layout_alignParentBottom="true"
+					 android:layout_alignParentRight="true"
+					 android:padding="7dp"				
+				  />   
+	    	</RelativeLayout>
+	    	<LinearLayout 
+	    	    android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="0.05"
+				android:background="#797977"
+	    	    >
+	    	    
+	    	    
+	    	</LinearLayout>
+	    	
+	    	
+		
+	    	    
+		     <LinearLayout 
+		         	   android:id="@+id/sy_context_list_detail" 
+             	       android:layout_width="match_parent"
+           	           android:layout_height="0dp"
+           	           android:layout_weight="9.25"
+           	           android:orientation="vertical"
+             	        >
+             	       
+		             	           <android.support.v4.view.ViewPager
+								        android:id="@+id/detail_pager"
+								        android:layout_width="match_parent"
+								        android:layout_height="match_parent"
+								      />
+		             	           
+			             	     
+						
+             	        
+             	</LinearLayout>
+
+	    
+	</LinearLayout>
+    
+
+</RelativeLayout>

@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}"
+    android:orientation="vertical"
+    android:weightSum="10"
+    >
+   <RelativeLayout 
+        android:layout_width="match_parent"
+		 android:layout_height="match_parent"
+       >
+       <ProgressBar
+	        android:id="@+id/loading_sy_stu_scan"
+	        android:layout_width="40dp"
+	        android:layout_height="40dp"
+	        android:layout_centerInParent="true"
+	        android:visibility="invisible"/>
+		<TextView 
+		    android:id="@+id/check_network_sy_stu_scan"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerInParent="true"
+		    android:gravity="center"
+		    android:text="내용이 없습니다."
+		    android:visibility="invisible"
+		    />
+	    
+	    <ListView
+	        android:id="@+id/sy_stu_scan_context" 
+	        android:layout_width="match_parent"
+			android:layout_height="match_parent"
+	        />
+        
+       
+   </RelativeLayout>
+  
+   
+<WebView 
+    android:id="@+id/webview"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_weight="0"
+    android:visibility="invisible"
+    />
+ 
+
+</LinearLayout>

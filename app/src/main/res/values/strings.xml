@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">경북대학교\n강의계획서</string>
+    <string name="app_name_full">경북대학교 수업시간 및 강의계획서</string>
+    <string name="title_activity_sy__knu__sub">SY_KNU_Sub</string>
+    <string name="title_activity_sy__knu__major">SY_KNU_Major</string>
+    <string name="title_activity_sy__knu__sy__menu">SY_KNU_SY_Menu</string>
+    <string name="title_activity_sy__knu__sy">SY_KNU_SY</string>
+    <string name="title_activity_sy__knu__search">SY_KNU_Search</string>
+    <string name="title_activity_sy__knu__app__info">SY_KNU_App_Info</string>
+    <string name="title_activity_sy__knu__intro">SY_KNU_Intro</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_sy__knu__ask">SY_KNU_Ask</string>
+    <string name="title_activity_sy__knu__sy__detail">SY_KNU_SY_Detail</string>
+    <string name="title_activity_sy__knu__time_table">SY_KNU_TimeTable</string>
+    <string name="title_activity_sy__knu__stu__scan">SY_KNU_Stu_Scan</string>
+
+</resources>
