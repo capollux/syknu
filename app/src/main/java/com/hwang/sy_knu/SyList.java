@@ -228,7 +228,7 @@ public class SyList extends Activity implements OnItemClickListener, Observer {
 		
 		getActionBar().setTitle(syTitle);
 			
-		SY_Cour_Name = (TextView)findViewById(R.id.sy_cour_title);
+		//SY_Cour_Name = (TextView)findViewById(R.id.sy_cour_title);
 		syList = (ListView)findViewById(R.id.sy_list);
 		
 		syMenu = new ArrayList<Data>();
@@ -236,11 +236,11 @@ public class SyList extends Activity implements OnItemClickListener, Observer {
 		Remark = new ArrayList<String>();
 		SY_Num = new ArrayList<String>();
 		
-		if(sySaved==1){
-			SY_Cour_Name.setText(null);
-		} else {
-			SY_Cour_Name.setText(syTerm+" 학기"); 
-		}
+//		if(sySaved==1){
+//			SY_Cour_Name.setText(null);
+//		} else {
+//			SY_Cour_Name.setText(syTerm+" 학기");
+//		}
 
 		registerForContextMenu(syList);
 		

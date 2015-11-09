@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="spinnerArrayTerm">
+        <item >2015W</item>
         <item >20152</item>
         <item >2015S</item>
         <item >20151</item>
