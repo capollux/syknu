@@ -31,7 +31,8 @@ public class Search extends Activity implements OnItemSelectedListener, View.OnC
 	
 	// 받는 정보
 	private String searchWhat;
-	
+
+	private EditText termYear;
 	private EditText searchNum;
 	private EditText searchName;
 	private EditText searchPro;
@@ -45,7 +46,8 @@ public class Search extends Activity implements OnItemSelectedListener, View.OnC
 	private Button searchStartBtnPro;
 	
 	// 주는 정보
-	private String term;
+	private String term_1;
+	private String term_2;
 	
 	
 	@Override
@@ -58,7 +60,8 @@ public class Search extends Activity implements OnItemSelectedListener, View.OnC
 		searchTitle = get_info.getStringExtra("title");
 		getActionBar().setTitle(searchTitle);
 		
-		
+		termYear = (EditText)findViewById(R.id.search_term_year_1);
+
 		// initalize
 		searchNum = (EditText)findViewById(R.id.search_subj_num);
 		searchName= (EditText)findViewById(R.id.search_subj_title);
@@ -72,11 +75,10 @@ public class Search extends Activity implements OnItemSelectedListener, View.OnC
 		searchStartBtnName.setOnClickListener(this);
 		searchStartBtnPro.setOnClickListener(this);
 		
-	
-		
+
 		String[] optionLavala=getResources().getStringArray(R.array.spinnerArrayTerm);
 		ArrayAdapter<String> Term_Adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,optionLavala);
-		termSpinner = (Spinner)findViewById(R.id.search_term_spinner);
+		termSpinner = (Spinner)findViewById(R.id.search_term_year_2);
 		termSpinner.setAdapter(Term_Adapter);
 		
 		termSpinner.setOnItemSelectedListener(this);
@@ -99,7 +101,7 @@ public class Search extends Activity implements OnItemSelectedListener, View.OnC
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position,
 			long id) {
-		term=(String)termSpinner.getSelectedItem();
+		term_2=(String)termSpinner.getSelectedItem();
 
 	}
 
@@ -107,7 +109,7 @@ public class Search extends Activity implements OnItemSelectedListener, View.OnC
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
-		term="";
+		term_2="";
 	}
 
 
@@ -154,17 +156,20 @@ public class Search extends Activity implements OnItemSelectedListener, View.OnC
 				searchWhat = "search_prof_nm='"+searchProUTF8;
 			}
 			break;
-		}
-		
 
-		
-		if(searchWhat!=null){
+		}
+
+		term_1 = termYear.getText().toString();
+
+		if(searchWhat!=null && term_1.length()==4){
 			Intent Go_Sy_List = new Intent(Search.this,SyList.class);
 			Go_Sy_List.putExtra("title", "검색 결과");
-			Go_Sy_List.putExtra("url", "http://yes.knu.ac.kr/cour/cour/course/listLectPln/list.action?"+searchWhat+"'&search_open_yr_trm='"+term+"'");
+			Go_Sy_List.putExtra("url", "http://yes.knu.ac.kr/cour/cour/course/listLectPln/list.action?"+searchWhat+"'&search_open_yr_trm='"+term_1+term_2+"'");
 			Go_Sy_List.putExtra("search", 1);
-			Go_Sy_List.putExtra("term", term);
+			Go_Sy_List.putExtra("term", term_1+term_2);
 			startActivity(Go_Sy_List);
+		} else {
+			Toast. makeText(getApplicationContext(), "년도를 올바르게 입력해주세요.", Toast.LENGTH_SHORT).show();
 		}
 		
 		//Search_Num.setText(null);
