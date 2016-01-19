@@ -1,29 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="spinnerArrayTerm">
-        <item >2015W</item>
-        <item >20152</item>
-        <item >2015S</item>
-        <item >20151</item>
-        <item >2014W</item>
-        <item >20142</item>
-        <item >2014S</item>
-        <item >20141</item>
-        <item >2013W</item>
-        <item >20132</item>
-        <item >2013S</item>
-        <item >20131</item>
-        <item >2012W</item>
-        <item >20122</item>
-        <item >2012S</item>
-        <item >20121</item>
-        <item >2011W</item>
-        <item >20112</item>
-        <item >2011S</item>
-        <item >20111</item>
-        <item >2010W</item>
-        <item >20102</item>
-        <item >2010S</item>
-        <item >20101</item>
+        <item >1</item>
+        <item >S</item>
+        <item >2</item>
+        <item >W</item>
     </string-array>
 </resources>
