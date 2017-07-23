@@ -20,17 +20,29 @@ public class DetailPageFragmentList extends Fragment{
 	
 	private TextView checkNetwork;
 	
-	private ArrayList<DetailContext> eachContext;
+//	private ArrayList<DetailContext> eachContext;
 	private Context mContext;
 
 	private View displayView;
 	private ViewHolder viewHolder = null;
-	
-	public DetailPageFragmentList (ArrayList<DetailContext> Data) {
-		
-		eachContext = Data;
-		
-	}
+
+    public DetailPageFragmentList() {
+    }
+
+    public static DetailPageFragmentList newInstance(ArrayList<DetailContext> data) {
+        DetailPageFragmentList f = new DetailPageFragmentList();
+
+        // Supply index input as an argument.
+        Bundle args = new Bundle();
+        args.putParcelableArrayList("eachContext", data);
+        f.setArguments(args);
+
+        return f;
+    }
+
+    public ArrayList<DetailContext> getData() {
+        return getArguments().getParcelableArrayList("eachContext");
+    }
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,11 +71,11 @@ public class DetailPageFragmentList extends Fragment{
 
 		}
 		
-		viewHolder.syContextAdapter = new ContextAdapter(mContext,eachContext);
+		viewHolder.syContextAdapter = new ContextAdapter(mContext,getData());
 	 	viewHolder.detailContextList.setAdapter(viewHolder.syContextAdapter);
 	 	viewHolder.syContextAdapter.notifyDataSetChanged();
   		
-  		if(eachContext.isEmpty()){
+  		if(getData().isEmpty()){
   			checkNetwork.setText("내용이 없습니다.");
   			checkNetwork.setVisibility(View.VISIBLE);
 		} else {

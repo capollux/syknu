@@ -149,20 +149,19 @@ public class Detail extends FragmentActivity {
 
 
 			if(position==0){
-				
-				return new DetailPageFragmentList(detailIdx01);
+				return DetailPageFragmentList.newInstance(detailIdx01);
 			} else if (position==1){
 
-				return new DetailPageFragmentList(detailIdx02);
+				return DetailPageFragmentList.newInstance(detailIdx02);
 			} else if (position==2){
 
-				return new DetailPageFragmentList(detailIdx03);
+				return DetailPageFragmentList.newInstance(detailIdx03);
 			} else if (position==3){
 
-				return new DetailPageFragmentList(detailIdx04);
+				return DetailPageFragmentList.newInstance(detailIdx04);
 			} else {
-				
-				return new DetailPageFragmentList(detailIdx04);
+
+				return DetailPageFragmentList.newInstance(detailIdx04);
 			}
 		}
 
