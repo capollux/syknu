@@ -58,7 +58,7 @@ public class SyList extends Activity implements OnItemClickListener, Observer {
 	private List<String> Remark;
 	private List<String> SY_Num;
 	
-	private TextView SY_Cour_Name;
+//	private TextView SY_Cour_Name;
 	
 	// 새로고침 연속 방지
 	private boolean mFlag = true;
@@ -117,12 +117,12 @@ public class SyList extends Activity implements OnItemClickListener, Observer {
 				break;
 			
 				// '수집한'에서만 보이는 메뉴
-			case R.id.saved_sy:
-				Intent Go_Sy_Saved = new Intent(SyList.this,SyList.class);
-				Go_Sy_Saved.putExtra("title", "즐겨찾기");
-				Go_Sy_Saved.putExtra("open_saved",1); // Saved 에서 여는거 = 1
-				startActivity(Go_Sy_Saved);
-				break;
+//			case R.id.saved_sy:
+//				Intent Go_Sy_Saved = new Intent(SyList.this,SyList.class);
+//				Go_Sy_Saved.putExtra("title", "즐겨찾기");
+//				Go_Sy_Saved.putExtra("open_saved",1); // Saved 에서 여는거 = 1
+//				startActivity(Go_Sy_Saved);
+//				break;
 
 				
 				// '수집한'에서만 보이는 메뉴 끝
@@ -141,59 +141,59 @@ public class SyList extends Activity implements OnItemClickListener, Observer {
 		// 액션바 끝
 	
 		// Long Click
-		 @Override
-		 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-			 super.onCreateContextMenu(menu, v, menuInfo);
-			 if(sySaved==1){
-				 menu.add(0, Menu.FIRST, Menu.NONE, "삭제");
-				 menu.add(0, 2, Menu.NONE, "수강신청 인원조회");
-			 } else {
-				 menu.add(0, Menu.FIRST, Menu.NONE, "즐겨찾기 추가");
-				 menu.add(0, 2, Menu.NONE, "수강신청 인원조회");
-			 }
-			 
-		 }
-
-		 @Override
-		 public boolean onContextItemSelected(MenuItem item) {
-			 super.onContextItemSelected(item);
-			 
-			 AdapterView.AdapterContextMenuInfo menuInfo;
-			 int index;
-		
-			 switch(item.getItemId()) {
-		
-		
-			 case Menu.FIRST:
-				 menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-				 index = menuInfo.position;
-				 if(sySaved==1){
-					 mDbOpenHelper.deleteColumn(SY_Num.get(index).replace("\n", ""));
-					 syMenu.clear();
-					 syContextUrl.clear();
-					 Remark.clear();
-					 cnt=0;
-					 doWhileCursorToArray();
-				 } else {
-					 mDbOpenHelper.insertColumnSaved(SY_Num.get(index).replace("\n", ""), syContextUrl.get(index).substring(syContextUrl.get(index).indexOf("searchOpenYrTrm='")+17,syContextUrl.get(index).indexOf("searchOpenYrTrm='")+22));
-					 Toast.makeText(getApplicationContext(), "즐겨찾기 추가 완료", Toast.LENGTH_SHORT).show();
-				 }
-				 break;
-			 case 2:
-				 menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-				 index = menuInfo.position;
-				Intent goStuScan = new Intent(SyList.this,StuScan.class);
-
-				
-				goStuScan.putExtra("code", syMenu.get(index).getSubjectNum());
-				startActivity(goStuScan);
-				break;
-		
-			 }
-
-		 return false;
-
-		 }
+//		 @Override
+//		 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//			 super.onCreateContextMenu(menu, v, menuInfo);
+//			 if(sySaved==1){
+//				 menu.add(0, Menu.FIRST, Menu.NONE, "삭제");
+//				 menu.add(0, 2, Menu.NONE, "수강신청 인원조회");
+//			 } else {
+//				 menu.add(0, Menu.FIRST, Menu.NONE, "즐겨찾기 추가");
+//				 menu.add(0, 2, Menu.NONE, "수강신청 인원조회");
+//			 }
+//
+//		 }
+//
+//		 @Override
+//		 public boolean onContextItemSelected(MenuItem item) {
+//			 super.onContextItemSelected(item);
+//
+//			 AdapterView.AdapterContextMenuInfo menuInfo;
+//			 int index;
+//
+//			 switch(item.getItemId()) {
+//
+//
+//			 case Menu.FIRST:
+//				 menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//				 index = menuInfo.position;
+//				 if(sySaved==1){
+//					 mDbOpenHelper.deleteColumn(SY_Num.get(index).replace("\n", ""));
+//					 syMenu.clear();
+//					 syContextUrl.clear();
+//					 Remark.clear();
+//					 cnt=0;
+//					 doWhileCursorToArray();
+//				 } else {
+//					 mDbOpenHelper.insertColumnSaved(SY_Num.get(index).replace("\n", ""), syContextUrl.get(index).substring(syContextUrl.get(index).indexOf("searchOpenYrTrm='")+17,syContextUrl.get(index).indexOf("searchOpenYrTrm='")+22));
+//					 Toast.makeText(getApplicationContext(), "즐겨찾기 추가 완료", Toast.LENGTH_SHORT).show();
+//				 }
+//				 break;
+//			 case 2:
+//				 menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//				 index = menuInfo.position;
+//				Intent goStuScan = new Intent(SyList.this,StuScan.class);
+//
+//
+//				goStuScan.putExtra("code", syMenu.get(index).getSubjectNum());
+//				startActivity(goStuScan);
+//				break;
+//
+//			 }
+//
+//		 return false;
+//
+//		 }
 		 
 		// Long Click End
 
@@ -270,7 +270,7 @@ public class SyList extends Activity implements OnItemClickListener, Observer {
          Elements rows = doc.select("table.courTable tbody tr a");
 	      
          for (Element row : rows) {  
-        	 syContextUrl.add("http://yes.knu.ac.kr"+row.attr("href"));
+        	 syContextUrl.add("http://my.knu.ac.kr"+row.attr("href"));
          }	
 
          rows = doc.select("table.courTable tbody tr");

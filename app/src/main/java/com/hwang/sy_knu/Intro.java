@@ -3,6 +3,9 @@ package com.hwang.sy_knu;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -30,13 +33,17 @@ public class Intro extends Activity implements Observer {
 		setContentView(R.layout.sy_knu_intro);
 		
 		
-		HttpClient getYearTerm = new HttpClient(HttpClient.HTTP_GET_TERM, "http://yes.knu.ac.kr/cour/cour/course/listLectPln/list.action?search_gubun="+GUBUN_YEAR_TERM+"&search_subj_sub_class_cde='CLTR101001'");
+		HttpClient getYearTerm = new HttpClient(HttpClient.HTTP_GET_TERM, "http://my.knu.ac.kr/stpo/stpo/cour/listLectPln/chkSearchYrTrm.action?search_gubun="+GUBUN_YEAR_TERM);
 		getYearTerm.addObserver(this);
 		getYearTerm.connect();
-		
-		HttpClient getSeasonTerm = new HttpClient(HttpClient.HTTP_GET_SEASON, "http://yes.knu.ac.kr/cour/cour/course/listLectPln/list.action?search_gubun="+GUBUN_SEASON_TERM+"&search_subj_sub_class_cde='CLTR101001'");
+
+		HttpClient getSeasonTerm = new HttpClient(HttpClient.HTTP_GET_SEASON, "http://my.knu.ac.kr/stpo/stpo/cour/listLectPln/chkSearchYrTrm.action?search_gubun="+GUBUN_SEASON_TERM);
 		getSeasonTerm.addObserver(this);
 		getSeasonTerm.connect();
+
+//		HttpClient getMajor = new HttpClient(HttpClient.HTTP_GET_MAJOR,"http://my.knu.ac.kr/stpo/stpo/cour/listLectPln/listCrseCdes2.action?search_open_bndle_cde=12&search_gubun="+GUBUN_SEASON_TERM);
+//		getMajor.addObserver(this);
+//		getMajor.connect();
 
 		Handler hd = new Handler();
 		
@@ -49,26 +56,20 @@ public class Intro extends Activity implements Observer {
 			}
 		}, 1000);
 		
-		
 	}
 
 	
-	private void parseHtml(String str){
-		
-		Document doc = Jsoup.parse(str);
-		Elements rows = doc.select("table.courTable tbody tr a");
-		for (Element row : rows) {
-			if(str.substring(0, 1).equals(GUBUN_YEAR_TERM)){
-				Data.yearTerm=row.attr("href").substring(row.attr("href").indexOf("searchOpenYrTrm='")+17,row.attr("href").indexOf("searchOpenYrTrm='")+22);
-			} else if (str.substring(0, 1).equals(GUBUN_SEASON_TERM)) {
-				Data.seasonTerm=row.attr("href").substring(row.attr("href").indexOf("searchOpenYrTrm='")+17,row.attr("href").indexOf("searchOpenYrTrm='")+22);
-			} else {
-				Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-			}
+	private void parseHtml(String str) {
+		str = str.replaceAll("'","");
+		if(str.substring(0, 1).equals(GUBUN_YEAR_TERM)){
+			Data.yearTerm = str.substring(1);
+		} else if (str.substring(0, 1).equals(GUBUN_SEASON_TERM)) {
+			Data.seasonTerm = str.substring(1);
+		} else {
+			Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
 		}
 	}
-	
-	
+
 	@Override
 	public void update(Observable observable, Object data) {
 		parseHtml((String)data);
