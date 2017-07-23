@@ -1,6 +1,9 @@
 package com.hwang.sy_knu.Data;
 
-public class DetailContext {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class DetailContext implements Parcelable {
 	
 	
 	public static String[] Heads = new String[] { "과목명","과목번호", "학점", "개설대학", "개설학기",
@@ -24,7 +27,11 @@ public class DetailContext {
 		this.head = head;
 		this.context = context;
 	}
-	
+
+	private DetailContext(Parcel in) {
+		this.head = in.readString();
+		this.context = in.readString();
+	}
 	
 	public String getHead() {
 		return head;
@@ -38,7 +45,17 @@ public class DetailContext {
 	public void setContext(String context) {
 		this.context = context;
 	}
-	
-	
-	
+
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(this.head);
+		dest.writeString(this.context);
+	}
+
 }
