@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.hwang.sy_knu.Data.Data;
 import com.hwang.sy_knu.Data.HttpClient;
 import com.hwang.sy_knu.Data.MenuData;
 import com.hwang.sy_knu.adapter.Adapter;
@@ -33,13 +35,14 @@ public class Main extends Activity implements OnItemClickListener, Observer {
 	private ProgressBar loading;
 	private TextView errorMessage;
 
-	private ArrayList<MenuData> mainMenu;
+    private ArrayList<MenuData> mainMenu;
 	private ListView mainList;
 	private Adapter mainAdapter;
 
 	// private String SY_Server ="http://www.knu.ac.kr/bbs/syllabus/index.jsp";
 	// private String SY_Server ="http://sy.knu.ac.kr/20151/20150209/index.htm";
-	public static String SY_SERVER_URL = "http://knu.ac.kr/wbbs/wbbs/contents/index.action?menu_url=curriculum2/index&noDeco=true"; 																																																												
+//	public static String SY_SERVER_URL = "http://knu.ac.kr/wbbs/wbbs/contents/index.action?menu_url=curriculum2/index&noDeco=true";
+	public static String SY_SERVER_URL = "http://my.knu.ac.kr/stpo/stpo/cour/listLectPln/list.action";
 
 	private List<String> syListUrl;
 
@@ -57,17 +60,16 @@ public class Main extends Activity implements OnItemClickListener, Observer {
 		case android.R.id.home:
 			break;
 
-		case R.id.saved_sy:
-			Intent goSySaved = new Intent(Main.this, SyList.class);
-			goSySaved.putExtra("title", "즐겨찾기");
-			goSySaved.putExtra("open_saved", 1); // Saved 에서 여는거 = 1
-			startActivity(goSySaved);
-
-			break;
+//		case R.id.saved_sy:
+//			Intent goSySaved = new Intent(Main.this, SyList.class);
+//			goSySaved.putExtra("title", "즐겨찾기");
+//			goSySaved.putExtra("open_saved", 1); // Saved 에서 여는거 = 1
+//			startActivity(goSySaved);
+//
+//			break;
 
 		case R.id.app_info:
-			Intent Go_App_Info = new Intent(getApplicationContext(),
-					AppInfo.class);
+			Intent Go_App_Info = new Intent(getApplicationContext(), AppInfo.class);
 			startActivity(Go_App_Info);
 
 			break;
@@ -94,8 +96,9 @@ public class Main extends Activity implements OnItemClickListener, Observer {
 		mainList = (ListView) findViewById(R.id.main_sub_list);
 		mainList.setOnItemClickListener(this);
 
-		mainMenu = new ArrayList<MenuData>();
-		syListUrl = new ArrayList<String>();		
+        mainMenu = new ArrayList<MenuData>();
+
+		syListUrl = new ArrayList<String>();
 
 		HttpClient getMain = new HttpClient(HttpClient.HTTP_GET_MAIN, SY_SERVER_URL);
 		getMain.addObserver(this);
@@ -110,37 +113,34 @@ public class Main extends Activity implements OnItemClickListener, Observer {
 		Elements rows;
 		Document doc = Jsoup.parse(str);
 				
-		rows = doc.select("td[height=28] a[style=CURSOR: hand]");
+		rows = doc.select("select#mainDiv option");
 
 		for (Element row : rows) {
-			Iterator<Element> iterElem = row.getElementsByTag("font")
-					.iterator();
-			if (iterElem.hasNext()) {
-
-				mainMenu.add(new MenuData(iterElem.next().text()));
-
+			switch (Integer.parseInt(row.attr("value"))) {
+				case 5:
+					syListUrl.add(SY_SERVER_URL+"?search_remote_course_yn=1&search_open_yr_trm="+Data.yearTerm);
+                    break;
+                case 6:
+                    syListUrl.add(SY_SERVER_URL+"?search_other_lect_lang_yn=1&search_open_yr_trm="+Data.yearTerm);
+                    break;
+                case 7:
+                    syListUrl.add(SY_SERVER_URL+"?search_gubun=2");
+                    break;
+                case 8:
+                    syListUrl.add(SY_SERVER_URL+"?search_pre_class_yn=1&search_open_yr_trm="+Data.yearTerm);
+                    break;
+                default:
+                    syListUrl.add(row.attr("value"));
 			}
 		}
 
-		rows = doc.select("td[height=28] a[target=frmUrl]");
-
 		for (Element row : rows) {
-			syListUrl.add(row.attr("href"));
-		}
-
-		for (Element row : rows) {
-			Iterator<Element> iterElem = row.getElementsByTag("font").iterator();
+			Iterator<Element> iterElem = row.getElementsByTag("option").iterator();
 			if (iterElem.hasNext()) {
 				mainMenu.add(new MenuData(iterElem.next().text()));
 			}
 		}
 
-		// 리스트가 존재할때만
-		if (!mainMenu.isEmpty()) {
-			int ListSize = mainMenu.size();
-			mainMenu.remove(ListSize - 1);
-			mainMenu.remove(ListSize - 2);
-		}
 
 		mainAdapter = new Adapter(getApplicationContext(), mainMenu);
 		mainList.setAdapter(mainAdapter);
@@ -165,43 +165,27 @@ public class Main extends Activity implements OnItemClickListener, Observer {
 
 	@Override
 	public void update(Observable observable, Object data) {
-		// TODO Auto-generated method stub
-
 		parseHtml((String) data);
-
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		TextView selectedTitle = (TextView) view
-				.findViewById(R.id.main_sub_title);
+		TextView selectedTitle = (TextView) view.findViewById(R.id.main_sub_title);
 		if (position >= 0 && position <= 3) {
 			Intent goSubMenu = new Intent(Main.this, Sub.class);
 			goSubMenu.putExtra("title", selectedTitle.getText().toString());
-			goSubMenu.putExtra("index", position);
-			startActivity(goSubMenu);
-		} else if (position >= 4 && position <= 5) {
-			Intent goSyList = new Intent(Main.this,
-					SyList.class);
-			goSyList.putExtra("title", selectedTitle.getText()
-					.toString());
+            goSubMenu.putExtra("index", position);
+            goSubMenu.putExtra("url", syListUrl.get(position));
+            startActivity(goSubMenu);
+		} else if (position >= 4 && position <= 7) {
+			Intent goSyList = new Intent(Main.this, SyList.class);
+			goSyList.putExtra("title", selectedTitle.getText().toString());
 			goSyList.putExtra("index", position);
-			goSyList.putExtra("url", syListUrl.get(position - 4));
+			goSyList.putExtra("url", syListUrl.get(position));
 			startActivity(goSyList);
-		} else if (selectedTitle.getText().toString().equals("계절학기")) {
-			Intent goSyList = new Intent(Main.this,
-					SyList.class);
-			goSyList.putExtra("title", selectedTitle.getText()
-					.toString());
-			goSyList.putExtra("index", position);
-			goSyList.putExtra("url", syListUrl.get(2));
-			startActivity(goSyList);
-
 		} else if (selectedTitle.getText().toString().equals("검색")) {
-
-			Intent goSearch = new Intent(Main.this,
-					Search.class);
+			Intent goSearch = new Intent(Main.this, Search.class);
 			goSearch.putExtra("title", selectedTitle.getText().toString());
 			goSearch.putExtra("index", position);
 			startActivity(goSearch);

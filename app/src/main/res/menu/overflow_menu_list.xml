@@ -11,16 +11,11 @@
         android:icon="@drawable/actionbar_icon"
         android:showAsAction="always"
         android:title="메뉴">
-        <menu>
-            <item
-                android:id="@+id/saved_sy"
-                android:showAsAction="never"
-                android:title="즐겨찾기"/>
-            <item
-                android:id="@+id/app_info"
-                android:showAsAction="never"
-                android:title="어플리케이션 정보"/>
-        </menu>
+
+    <item
+        android:id="@+id/app_info"
+        android:showAsAction="never"
+        android:title="어플리케이션 정보"/>
     </item>
 
 </menu>

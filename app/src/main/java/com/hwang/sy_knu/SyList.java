@@ -117,12 +117,12 @@ public class SyList extends Activity implements OnItemClickListener, Observer {
 				break;
 			
 				// '수집한'에서만 보이는 메뉴
-			case R.id.saved_sy:
-				Intent Go_Sy_Saved = new Intent(SyList.this,SyList.class);
-				Go_Sy_Saved.putExtra("title", "즐겨찾기");
-				Go_Sy_Saved.putExtra("open_saved",1); // Saved 에서 여는거 = 1
-				startActivity(Go_Sy_Saved);
-				break;
+//			case R.id.saved_sy:
+//				Intent Go_Sy_Saved = new Intent(SyList.this,SyList.class);
+//				Go_Sy_Saved.putExtra("title", "즐겨찾기");
+//				Go_Sy_Saved.putExtra("open_saved",1); // Saved 에서 여는거 = 1
+//				startActivity(Go_Sy_Saved);
+//				break;
 
 				
 				// '수집한'에서만 보이는 메뉴 끝
@@ -270,7 +270,7 @@ public class SyList extends Activity implements OnItemClickListener, Observer {
          Elements rows = doc.select("table.courTable tbody tr a");
 	      
          for (Element row : rows) {  
-        	 syContextUrl.add("http://yes.knu.ac.kr"+row.attr("href"));
+        	 syContextUrl.add("http://my.knu.ac.kr"+row.attr("href"));
          }	
 
          rows = doc.select("table.courTable tbody tr");

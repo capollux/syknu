@@ -97,19 +97,19 @@ public class HttpClient extends Observable {
 			switch (type) {
 			
 			case HTTP_GET_TERM:
-				
+
 				setChanged();
 				notifyObservers("1"+str);
-				
+
 				break;
-				
+
 			case HTTP_GET_SEASON:
-				
+
 				setChanged();
 				notifyObservers("2"+str);
-				
+
 				break;
-			
+
 			case HTTP_GET_MAIN:				
 			case HTTP_GET_SUB:
 			case HTTP_GET_MAJOR:

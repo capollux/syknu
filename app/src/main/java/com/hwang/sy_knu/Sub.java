@@ -40,7 +40,8 @@ public class Sub extends Activity implements OnItemClickListener, Observer {
 
 	private String subTitle;
 	private int subIndex;
-		
+    private String subValue;
+
 	private List<String> syListUrl;
 	private List<String> majorListUrl;
 
@@ -58,14 +59,14 @@ public class Sub extends Activity implements OnItemClickListener, Observer {
 		switch(item.getItemId()){
 		case android.R.id.home:
 			break;
-			
-		case R.id.saved_sy:
-			Intent goSySaved = new Intent(Sub.this,SyList.class);
-			goSySaved.putExtra("title", "즐겨찾기");
-			goSySaved.putExtra("open_saved",1); // Saved 에서 여는거 = 1
-			startActivity(goSySaved);
-			
-			break;
+
+//		case R.id.saved_sy:
+//			Intent goSySaved = new Intent(Sub.this,SyList.class);
+//			goSySaved.putExtra("title", "즐겨찾기");
+//			goSySaved.putExtra("open_saved",1); // Saved 에서 여는거 = 1
+//			startActivity(goSySaved);
+//
+//			break;
 			
 		case R.id.app_info:
 			Intent goAppInfo = new Intent(getApplicationContext(),AppInfo.class);
@@ -95,6 +96,8 @@ public class Sub extends Activity implements OnItemClickListener, Observer {
 		Intent get_info = getIntent();
 		subTitle = get_info.getStringExtra("title");
 		subIndex = get_info.getIntExtra("index", -1);
+		subValue = get_info.getStringExtra("url");
+
 		getActionBar().setTitle(subTitle);
 			
 		subList = (ListView)findViewById(R.id.main_sub_list);
@@ -114,24 +117,29 @@ public class Sub extends Activity implements OnItemClickListener, Observer {
 	
 	private void parseHtml(String str) {
 	
-		 Document doc = Jsoup.parse(str);
-         Elements rows = doc.select("table#submenu_"+Integer.toString(subIndex)+" tbody tr td span.style2 a");
-          for (Element row : rows) {
-        	  if(subIndex<=3 && subIndex>=1){
-        		  majorListUrl.add(row.attr("href"));
-        	  } else {
-        		  syListUrl.add(row.attr("href"));
-        	  }
-          }
-		
-         rows = doc.select("table#submenu_"+Integer.toString(subIndex)+" tbody tr td span.style2");
-           
-          for (Element row : rows) {
-        	 Iterator<Element> iterElem = row.getElementsByTag("a").iterator();
-	            	if(iterElem.hasNext()){
-	            		subMenu.add(new MenuData(iterElem.next().text()));
-	            	}
-          }
+        Document doc = Jsoup.parse(str);
+        Elements rows = doc.select("select#sub"+subValue+" option");
+        for (Element row : rows) {
+            if(subIndex == 0){
+              syListUrl.add(row.attr("value"));
+            } else {
+              majorListUrl.add(row.attr("value"));
+            }
+        }
+
+
+        if (subIndex != 0) {
+
+        }
+
+        rows = doc.select("select#sub"+subValue+" option");
+
+        for (Element row : rows) {
+            Iterator<Element> iterElem = row.getElementsByTag("option").iterator();
+            if(iterElem.hasNext()){
+                subMenu.add(new MenuData(iterElem.next().text()));
+            }
+        }
 
           	subAdapter = new Adapter(getApplicationContext(),subMenu);
           	subList.setAdapter(subAdapter);
@@ -158,8 +166,7 @@ public class Sub extends Activity implements OnItemClickListener, Observer {
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		TextView selectedTitle = (TextView)view.findViewById(R.id.main_sub_title);
 		

@@ -151,7 +151,7 @@ public class Sy extends Activity implements Observer {
 		htmlSource = str;
 		Document doc = Jsoup.parse(str);
 
-		Elements rows = doc.select("table.form tbody tr td");
+		Elements rows = doc.select("table#form1 tbody tr td");
 
 		int i = 0;
 		for (Element row : rows) {
@@ -164,21 +164,17 @@ public class Sy extends Activity implements Observer {
 
 						if (Eng == true) {
 							syContext.add(new DetailContext(
-									DetailContext.Heads_Eng[i], tmp.replace(
-											"B ", "B\n")));
+									DetailContext.Heads_Eng[i], tmp.replace("B ", "B\n")));
 						} else if (Eng == false) {
 							syContext.add(new DetailContext(
-									DetailContext.Heads[i], tmp.replace("B ",
-											"B\n")));
+									DetailContext.Heads[i], tmp.replace("B ", "B\n")));
 						}
 					} else {
 
 						if (Eng == true) {
-							syContext.add(new DetailContext(
-									DetailContext.Heads_Eng[i], tmp));
+							syContext.add(new DetailContext(DetailContext.Heads_Eng[i], tmp));
 						} else if (Eng == false) {
-							syContext.add(new DetailContext(
-									DetailContext.Heads[i], tmp));
+							syContext.add(new DetailContext(DetailContext.Heads[i], tmp));
 						}
 					}
 
@@ -224,9 +220,8 @@ public class Sy extends Activity implements Observer {
 					}
 				} else if (i == 10) { // 면담 시간 스크립트 소스 파싱
 					try {
-						Elements rows_script = doc
-								.select("body script[type=text/javascript]");
-						Element row_script = rows_script.first();
+						Elements rows_script = doc.select("body script[type=text/javascript]");
+						Element row_script = rows_script.last();
 						Iterator<Element> iterElem_script = row_script
 								.getElementsByTag("script").iterator();
 						String script = iterElem_script.next().toString();
@@ -255,11 +250,9 @@ public class Sy extends Activity implements Observer {
 				} else {
 					if (Eng == true) {
 						syContext.add(new DetailContext(
-								DetailContext.Heads_Eng[i], iterElem.next()
-										.text()));
+								DetailContext.Heads_Eng[i], iterElem.next().text()));
 					} else if (Eng == false) {
-						syContext.add(new DetailContext(DetailContext.Heads[i],
-								iterElem.next().text()));
+						syContext.add(new DetailContext(DetailContext.Heads[i], iterElem.next().text()));
 					}
 
 				}
@@ -276,77 +269,73 @@ public class Sy extends Activity implements Observer {
 		}
 
 		rows = doc.select("body script[type=text/javascript]");
-		for (Element row : rows) {
-			Iterator<Element> iterElem = row.getElementsByTag("script")
-					.iterator();
-			String script = iterElem.next().toString();
-			for (int j = 12; j < 18; j++) {
-				try {
-					String newstr;
-					int start;
-					int fromIndex;
-					int end;
-					switch (j) {
-					case 12:
-						fromIndex = script.indexOf("if( '01'=='01' ){") + 2;
-						start = script.indexOf("(\"", fromIndex) + 2;
-						end = script.indexOf("\");", fromIndex);
-						newstr = script.substring(start, end);
-						break;
+		Element row = rows.last();
+		Iterator<Element> iterElem = row.getElementsByTag("script").iterator();
+		String script = iterElem.next().toString();
+		for (int j = 12; j < 18; j++) {
+			try {
+				String newstr;
+				int start;
+				int fromIndex;
+				int end;
+				switch (j) {
+				case 12:
+					fromIndex = script.indexOf("if( '01'=='01' ){") + 2;
+					start = script.indexOf("(\"", fromIndex) + 2;
+					end = script.indexOf("\");", fromIndex);
+					newstr = script.substring(start, end);
+					break;
 
-					case 13:
-						fromIndex = script.indexOf("if( '02'=='01' ){") + 2;
-						start = script.indexOf("(\"", fromIndex) + 2;
-						end = script.indexOf("\");", fromIndex);
-						newstr = script.substring(start, end);
-						break;
-					case 14:
-						fromIndex = script.indexOf("if( '03'=='01' ){") + 2;
-						start = script.indexOf("(\"", fromIndex) + 2;
-						end = script.indexOf("\");", fromIndex);
-						newstr = script.substring(start, end);
-						break;
-					case 15:
-						fromIndex = script.indexOf("if( '04'=='01' ){") + 2;
-						start = script.indexOf("(\"", fromIndex) + 2;
-						end = script.indexOf("\");", fromIndex);
-						newstr = script.substring(start, end);
-						break;
-					case 16:
-						fromIndex = script.indexOf("if( '05'=='01' ){") + 2;
-						start = script.indexOf("(\"", fromIndex) + 2;
-						end = script.indexOf("\");", fromIndex);
-						newstr = script.substring(start, end);
-						break;
-					case 17:
-						fromIndex = script.indexOf("if( '07'=='01' ){") + 2;
-						start = script.indexOf("(\"", fromIndex) + 2;
-						end = script.indexOf("\");", fromIndex);
-						newstr = script.substring(start, end);
-						break;
+				case 13:
+					fromIndex = script.indexOf("if( '02'=='01' ){") + 2;
+					start = script.indexOf("(\"", fromIndex) + 2;
+					end = script.indexOf("\");", fromIndex);
+					newstr = script.substring(start, end);
+					break;
+				case 14:
+					fromIndex = script.indexOf("if( '03'=='01' ){") + 2;
+					start = script.indexOf("(\"", fromIndex) + 2;
+					end = script.indexOf("\");", fromIndex);
+					newstr = script.substring(start, end);
+					break;
+				case 15:
+					fromIndex = script.indexOf("if( '04'=='01' ){") + 2;
+					start = script.indexOf("(\"", fromIndex) + 2;
+					end = script.indexOf("\");", fromIndex);
+					newstr = script.substring(start, end);
+					break;
+				case 16:
+					fromIndex = script.indexOf("if( '05'=='01' ){") + 2;
+					start = script.indexOf("(\"", fromIndex) + 2;
+					end = script.indexOf("\");", fromIndex);
+					newstr = script.substring(start, end);
+					break;
+				case 17:
+					fromIndex = script.indexOf("if( '07'=='01' ){") + 2;
+					start = script.indexOf("(\"", fromIndex) + 2;
+					end = script.indexOf("\");", fromIndex);
+					newstr = script.substring(start, end);
+					break;
 
-					default:
-						newstr = "-";
-					}
+				default:
+					newstr = "-";
+				}
 
-					if (Eng == true) {
-						syContext.add(new DetailContext(
-								DetailContext.Heads_Eng[j], newstr.replace(
-										"<br>", " ").replace("<p>", "\n")));
-					} else if (Eng == false) {
-						syContext.add(new DetailContext(DetailContext.Heads[j],
-								newstr.replace("<br>", " ")
-										.replace("<p>", "\n")));
-					}
+				if (Eng == true) {
+					syContext.add(new DetailContext(
+							DetailContext.Heads_Eng[j], newstr.replace(
+									"<br>", " ").replace("<p>", "\n")));
+				} else if (Eng == false) {
+					syContext.add(new DetailContext(DetailContext.Heads[j],
+							newstr.replace("<br>", " ")
+									.replace("<p>", "\n")));
+				}
 
-				} catch (IndexOutOfBoundsException e) {
-					if (Eng == true) {
-						syContext.add(new DetailContext(
-								DetailContext.Heads_Eng[j], ""));
-					} else if (Eng == false) {
-						syContext.add(new DetailContext(DetailContext.Heads[j],
-								""));
-					}
+			} catch (IndexOutOfBoundsException e) {
+				if (Eng == true) {
+					syContext.add(new DetailContext(DetailContext.Heads_Eng[j], ""));
+				} else if (Eng == false) {
+					syContext.add(new DetailContext(DetailContext.Heads[j], ""));
 				}
 			}
 		}

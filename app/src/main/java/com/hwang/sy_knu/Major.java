@@ -57,13 +57,13 @@ public class Major extends Activity implements OnItemClickListener, Observer {
 		case android.R.id.home:
 			break;
 
-		case R.id.saved_sy:
-			Intent goSySaved = new Intent(Major.this, SyList.class);
-			goSySaved.putExtra("title", "즐겨찾기");
-			goSySaved.putExtra("open_saved", 1); // Saved 에서 여는거 = 1
-			startActivity(goSySaved);
-
-			break;
+//		case R.id.saved_sy:
+//			Intent goSySaved = new Intent(Major.this, SyList.class);
+//			goSySaved.putExtra("title", "즐겨찾기");
+//			goSySaved.putExtra("open_saved", 1); // Saved 에서 여는거 = 1
+//			startActivity(goSySaved);
+//
+//			break;
 
 		case R.id.app_info:
 			Intent goAppInfo = new Intent(getApplicationContext(),
