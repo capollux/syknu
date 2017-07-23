@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,7 +25,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.hwang.sy_knu.Data.Data;
 import com.hwang.sy_knu.Data.HttpClient;
 import com.hwang.sy_knu.Data.MenuData;
 import com.hwang.sy_knu.adapter.Adapter;
@@ -38,7 +43,7 @@ public class Major extends Activity implements OnItemClickListener, Observer {
 	private Adapter majorAdapter;
 
 	private String majorTitle;
-	private String majorListURL;
+	private String majorCode;
 
 	// 주는 정보
 	private List<String> syListUrl;
@@ -92,7 +97,7 @@ public class Major extends Activity implements OnItemClickListener, Observer {
 
 		Intent getInfo = getIntent();
 		majorTitle = getInfo.getStringExtra("title");
-		majorListURL = getInfo.getStringExtra("url");
+		majorCode = getInfo.getStringExtra("majorCode");
 
 		getActionBar().setTitle(majorTitle);
 
@@ -103,8 +108,7 @@ public class Major extends Activity implements OnItemClickListener, Observer {
 		syListUrl = new ArrayList<String>();
 
 		loading.setVisibility(View.VISIBLE);
-		HttpClient getMajor = new HttpClient(HttpClient.HTTP_GET_MAJOR,
-				majorListURL);
+		HttpClient getMajor = new HttpClient(HttpClient.HTTP_GET_MAJOR, "http://my.knu.ac.kr/stpo/stpo/cour/listLectPln/listCrseCdes2.action?search_open_bndle_cde="+majorCode+"&search_gubun=1");
 		getMajor.addObserver(this);
 		getMajor.connect();
 
@@ -112,23 +116,45 @@ public class Major extends Activity implements OnItemClickListener, Observer {
 
 	private void parseHtml(String str) {
 
-		Document doc = Jsoup.parse(str);
-		Elements rows = doc.select("div.courbox_back ul li a");
-		for (Element row : rows) {
-			syListUrl.add("http://yes.knu.ac.kr" + row.attr("href"));
-		}
+		JSONArray dataArray = null;
+		try {
+			dataArray = new JSONArray(str);
 
-		rows = doc.select("div.courbox_back ul li");
+			for (int i = 0; i < dataArray.length(); i++) {
 
-		for (Element row : rows) {
-			Iterator<Element> iterElem = row.getElementsByTag("a").iterator();
-			if (iterElem.hasNext()) {
-				String Add = iterElem.next().text();
-				if (!Add.equals("")) {
-					majorMenu.add(new MenuData(Add));
+				JSONObject data = dataArray.getJSONObject(i);
+
+				for (int j = 1; j <= 3; j++) {
+					String major = data.getString("open_crse_nm_"+Integer.toString(j));
+					String majorCode = data.getString("open_crse_cde_"+Integer.toString(j));
+
+					majorMenu.add(new MenuData(major));
+					syListUrl.add(Main.SY_SERVER_URL+"?sub="+majorCode+"&search_open_crse_cde="+majorCode+"&search_open_yr_trm="+Data.yearTerm);
 				}
+
 			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
+
+//		Document doc = Jsoup.parse(str);
+//		Elements rows = doc.select("div.courbox_back ul li a");
+//		for (Element row : rows) {
+//			syListUrl.add("http://yes.knu.ac.kr" + row.attr("href"));
+//		}
+//
+//		rows = doc.select("div.courbox_back ul li");
+//
+//		for (Element row : rows) {
+//			Iterator<Element> iterElem = row.getElementsByTag("a").iterator();
+//			if (iterElem.hasNext()) {
+//				String Add = iterElem.next().text();
+//				if (!Add.equals("")) {
+//					majorMenu.add(new MenuData(Add));
+//				}
+//			}
+//		}
 
 		majorAdapter = new Adapter(getApplicationContext(), majorMenu);
 		majorList.setAdapter(majorAdapter);

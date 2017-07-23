@@ -3,6 +3,9 @@ package com.hwang.sy_knu;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -38,6 +41,10 @@ public class Intro extends Activity implements Observer {
 		getSeasonTerm.addObserver(this);
 		getSeasonTerm.connect();
 
+//		HttpClient getMajor = new HttpClient(HttpClient.HTTP_GET_MAJOR,"http://my.knu.ac.kr/stpo/stpo/cour/listLectPln/listCrseCdes2.action?search_open_bndle_cde=12&search_gubun="+GUBUN_SEASON_TERM);
+//		getMajor.addObserver(this);
+//		getMajor.connect();
+
 		Handler hd = new Handler();
 		
 		hd.postDelayed(new Runnable() {
@@ -52,7 +59,7 @@ public class Intro extends Activity implements Observer {
 	}
 
 	
-	private void parseHtml(String str){
+	private void parseHtml(String str) {
 		str = str.replaceAll("'","");
 		if(str.substring(0, 1).equals(GUBUN_YEAR_TERM)){
 			Data.yearTerm = str.substring(1);

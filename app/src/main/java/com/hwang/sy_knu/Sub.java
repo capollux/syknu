@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.hwang.sy_knu.Data.Data;
 import com.hwang.sy_knu.Data.HttpClient;
 import com.hwang.sy_knu.Data.MenuData;
 import com.hwang.sy_knu.adapter.Adapter;
@@ -120,41 +121,37 @@ public class Sub extends Activity implements OnItemClickListener, Observer {
         Document doc = Jsoup.parse(str);
         Elements rows = doc.select("select#sub"+subValue+" option");
         for (Element row : rows) {
-            if(subIndex == 0){
-              syListUrl.add(row.attr("value"));
-            } else {
-              majorListUrl.add(row.attr("value"));
+
+            if (row.attr("value") != ""){
+                Iterator<Element> iterElem = row.getElementsByTag("option").iterator();
+                if(iterElem.hasNext()){
+                    subMenu.add(new MenuData(iterElem.next().text()));
+                }
+
+                if(subIndex == 0){
+                    syListUrl.add(Main.SY_SERVER_URL+"?search_subj_area_cde="+row.attr("value")+"&search_open_yr_trm="+Data.yearTerm);
+                } else {
+                    majorListUrl.add(row.attr("value"));
+                }
             }
-        }
-
-
-        if (subIndex != 0) {
 
         }
 
-        rows = doc.select("select#sub"+subValue+" option");
 
-        for (Element row : rows) {
-            Iterator<Element> iterElem = row.getElementsByTag("option").iterator();
-            if(iterElem.hasNext()){
-                subMenu.add(new MenuData(iterElem.next().text()));
-            }
+        subAdapter = new Adapter(getApplicationContext(),subMenu);
+        subList.setAdapter(subAdapter);
+
+        loading.setVisibility(View.INVISIBLE);
+
+
+        subAdapter.notifyDataSetChanged();
+
+        if(subMenu.isEmpty()){
+            errorMessage.setText("네트워크 연결 오류\n또는 내용이 없습니다.");
+            errorMessage.setVisibility(View.VISIBLE);
+        } else {
+            errorMessage.setVisibility(View.INVISIBLE);
         }
-
-          	subAdapter = new Adapter(getApplicationContext(),subMenu);
-          	subList.setAdapter(subAdapter);
-	  		
-	  		loading.setVisibility(View.INVISIBLE);
-
-	  		
-	  		subAdapter.notifyDataSetChanged();
-	  		
-	  		if(subMenu.isEmpty()){
-	  			errorMessage.setText("네트워크 연결 오류\n또는 내용이 없습니다.");
-	  			errorMessage.setVisibility(View.VISIBLE);
-			} else {
-				errorMessage.setVisibility(View.INVISIBLE);
-			}
 	  		
 	}
 	
@@ -171,19 +168,19 @@ public class Sub extends Activity implements OnItemClickListener, Observer {
 		TextView selectedTitle = (TextView)view.findViewById(R.id.main_sub_title);
 		
 		// Main 1,2,3,4
-		if(subIndex<=3 && subIndex>=1){
-			Intent goMajorList = new Intent(Sub.this,Major.class);
-			goMajorList.putExtra("title", subTitle + " > " + selectedTitle.getText().toString());
-			goMajorList.putExtra("index", position);
-			goMajorList.putExtra("url", majorListUrl.get(position));
-			startActivity(goMajorList);
+		if(subIndex == 0){
+            Intent goSyList = new Intent(Sub.this,SyList.class);
+            goSyList.putExtra("title", subTitle + " > " + selectedTitle.getText().toString());
+            goSyList.putExtra("index", position);
+            goSyList.putExtra("url", syListUrl.get(position));
+            startActivity(goSyList);
 		} else {
-		
-		Intent goSyList = new Intent(Sub.this,SyList.class);
-		goSyList.putExtra("title", subTitle + " > " + selectedTitle.getText().toString());
-		goSyList.putExtra("index", position);
-		goSyList.putExtra("url", syListUrl.get(position));
-		startActivity(goSyList);
+
+            Intent goMajorList = new Intent(Sub.this,Major.class);
+            goMajorList.putExtra("title", subTitle + " > " + selectedTitle.getText().toString());
+            goMajorList.putExtra("index", position);
+            goMajorList.putExtra("majorCode", majorListUrl.get(position));
+            startActivity(goMajorList);
 		
 		}
 	}
